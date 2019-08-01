@@ -1,8 +1,8 @@
 <?php
 
-namespace AppleSignIn;
+namespace AppleSignIn\Vendor;
 
-use UnexpectedValueException;
+use \UnexpectedValueException;
 
 /**
  * JSON Web Key implementation, based on this spec:

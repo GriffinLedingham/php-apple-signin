@@ -1,6 +1,6 @@
 <?php
 
-namespace AppleSignIn;
+namespace AppleSignIn\Vendor;
 use \DomainException;
 use \InvalidArgumentException;
 use \UnexpectedValueException;
