@@ -29,7 +29,7 @@ $email = $appleSignInPayload->getEmail();
 $user = $appleSignInPayload->getUser();
 
 /**
- * Determine whether the client-provided user is valid
+ * Determine whether the client-provided user is valid.
  */
 $isValid = $appleSignInPayload->verifyUser($clientUser);
 
