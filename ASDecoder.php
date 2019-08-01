@@ -1,12 +1,12 @@
 <?php
 
 namespace AppleSignIn;
-use Firebase\JWT;
-use Firebase\JWK;
+use Firebase\JWT\JWT;
+use Firebase\JWT\JWK;
 use Exception;
 
 class ASDecoder {
-    public static function getAppleSignInPayload(string $identityToken) : array
+    public static function getAppleSignInPayload(string $identityToken) : object
     {
         return self::decodeIdentityToken($identityToken);
     }
@@ -29,13 +29,18 @@ class ASDecoder {
         return ($identityPayload->sub === $user);
     }
 
-    public static function decodeIdentityToken(string $identityToken) {
-        [$publicKey, $alg] = self::fetchPublicKey();
+    public static function decodeIdentityToken(string $identityToken) : object {
+        $publicKeyData = self::fetchPublicKey();
+
+        $publicKey = $publicKeyData['publicKey'];
+        $alg = $publicKeyData['alg'];
+
         $payload = JWT::decode($identityToken, $publicKey, [$alg]);
+
         return $payload;
     }
 
-    public static function fetchPublicKey() {
+    public static function fetchPublicKey() : array {
         $publicKeys = file_get_contents('https://appleid.apple.com/auth/keys');
         $decodedPublicKeys = json_decode($publicKeys, true);
 
