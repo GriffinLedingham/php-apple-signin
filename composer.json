@@ -3,7 +3,7 @@
     "type": "library",
     "description": "A simple library to decode and parse Apple Sign In client tokens.",
     "keywords": ["apple","sign","in","ios","php","jwt","jwk"],
-    "license": "BSD-3-Clause",
+    "license": "MIT",
     "authors": [
         {
             "name": "Griffin Ledingham",
@@ -12,6 +12,9 @@
         }
     ],
     "require": {
-        "firebase/php-jwt": "5.0.0"
+        "fproject/php-jwt": "4.0.5"
+    },
+    "autoload": {
+        "psr-4": { "AppleSignIn\\": "" }
     }
 }
