@@ -1,6 +1,10 @@
 <?php
 
 namespace AppleSignIn;
+
+use AppleSignIn\Vendor\JWK;
+use AppleSignIn\Vendor\JWT;
+
 use Exception;
 
 class ASDecoder {
