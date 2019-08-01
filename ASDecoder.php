@@ -8,27 +8,10 @@ use AppleSignIn\Vendor\JWT;
 use Exception;
 
 class ASDecoder {
-    public static function getAppleSignInPayload(string $identityToken) : object
+    public static function getAppleSignInPayload(string $identityToken) : ?object
     {
-        return self::decodeIdentityToken($identityToken);
-    }
-
-    public static function getAppleSignInUser(string $identityToken) : string
-    {
-        $identityPayload = self::getAppleSignInPayload($identityToken);
-        return (isset($identityPayload['sub'])) ? $identityPayload['sub'] : null;
-    }
-
-    public static function getAppleSignInEmail(string $identityToken) : string
-    {
-        $identityPayload = self::getAppleSignInPayload($identityToken);
-        return (isset($identityPayload['email'])) ? $identityPayload['email'] : null;
-    }
-
-    public static function verifyAppleSignInUser(string $user, string $identityToken) : bool
-    {
-        $identityPayload = self::getAppleSignInPayload($identityToken);
-        return ($identityPayload->sub === $user);
+        $identityPayload = self::decodeIdentityToken($identityToken);
+        return new ASPayload($identityPayload);
     }
 
     public static function decodeIdentityToken(string $identityToken) : object {
@@ -62,5 +45,40 @@ class ASDecoder {
             'publicKey' => $publicKeyDetails['key'],
             'alg' => $parsedKeyData['alg']
         ];
+    }
+}
+
+class ASPayload {
+    protected $_instance;
+
+    public function __construct(?object $instance) {
+        if(is_null($instance)) {
+            throw new Exception('ASPayload received null instance.');
+        }
+        $this->_instance = $instance;
+    }
+
+    public function __call($method, $args) {
+        return call_user_func_array(array($this->_instance, $method), $args);
+    }
+
+    public function __get($key) {
+        return $this->_instance->$key;
+    }
+
+    public function __set($key, $val) {
+        return $this->_instance->$key = $val;
+    }
+
+    public function getEmail() : ?string {
+        return (isset($this->_instance->email)) ? $this->_instance->email : null;
+    }
+
+    public function getUser() : ?string {
+        return (isset($this->_instance->sub)) ? $this->_instance->sub : null;
+    }
+
+    public function verifyUser(string $user) : bool {
+        return $user === $this->getUser();
     }
 }
