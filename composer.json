@@ -11,9 +11,6 @@
             "role": "Developer"
         }
     ],
-    "require": {
-        "fproject/php-jwt": "4.0.5"
-    },
     "autoload": {
         "psr-4": { "AppleSignIn\\": "" }
     }
