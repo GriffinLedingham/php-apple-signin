@@ -2,6 +2,7 @@
 
 namespace AppleSignIn;
 use Firebase\JWT;
+use Firebase\JWK;
 use Exception;
 
 class ASDecoder {
@@ -36,7 +37,7 @@ class ASDecoder {
 
     public static function fetchPublicKey() {
         $publicKeys = file_get_contents('https://appleid.apple.com/auth/keys');
-        $decodedPublicKeys = json_decode($publicKeys);
+        $decodedPublicKeys = json_decode($publicKeys, true);
 
         if(!isset($decodedPublicKeys['keys']) || count($decodedPublicKeys['keys']) < 1) {
             throw new Exception('Invalid key format.');
