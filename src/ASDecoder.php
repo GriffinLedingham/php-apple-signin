@@ -1,8 +1,6 @@
 <?php
 
 namespace AppleSignIn;
-use Firebase\JWT\JWT;
-use Firebase\JWT\JWK;
 use Exception;
 
 class ASDecoder {
