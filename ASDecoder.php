@@ -6,6 +6,7 @@ use AppleSignIn\Vendor\JWK;
 use AppleSignIn\Vendor\JWT;
 
 use Exception;
+use stdClass;
 
 /**
  * Decode Sign In with Apple identity token, and produce an ASPayload for
@@ -21,9 +22,9 @@ class ASDecoder {
      * Parse a provided Sign In with Apple identity token.
      *
      * @param string $identityToken
-     * @return object|null
+     * @return ASPayload|null
      */
-    public static function getAppleSignInPayload(string $identityToken) : ?object
+    public static function getAppleSignInPayload(string $identityToken) : ?ASPayload
     {
         $identityPayload = self::decodeIdentityToken($identityToken);
         return new ASPayload($identityPayload);
@@ -33,14 +34,15 @@ class ASDecoder {
      * Decode the Apple encoded JWT using Apple's public key for the signing.
      *
      * @param string $identityToken
-     * @return object
+     * @return stdClass
      */
-    public static function decodeIdentityToken(string $identityToken) : object {
+    public static function decodeIdentityToken(string $identityToken) : stdClass {
         $publicKeyData = self::fetchPublicKey();
 
         $publicKey = $publicKeyData['publicKey'];
         $alg = $publicKeyData['alg'];
 
+        JWT::$leeway = 60;
         $payload = JWT::decode($identityToken, $publicKey, [$alg]);
 
         return $payload;
@@ -82,7 +84,7 @@ class ASDecoder {
 class ASPayload {
     protected $_instance;
 
-    public function __construct(?object $instance) {
+    public function __construct(?stdClass $instance) {
         if(is_null($instance)) {
             throw new Exception('ASPayload received null instance.');
         }
