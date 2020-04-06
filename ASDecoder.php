@@ -94,7 +94,7 @@ class ASPayload {
     }
 
     public function __get($key) {
-        return $this->_instance->$key;
+        return (isset($this->_instance->$key)) ? $this->_instance->$key : null;
     }
 
     public function __set($key, $val) {

@@ -2,6 +2,9 @@
 
 namespace AppleSignIn\Vendor;
 use \DomainException;
+use Firebase\JWT\BeforeValidException;
+use Firebase\JWT\ExpiredException;
+use Firebase\JWT\SignatureInvalidException;
 use \InvalidArgumentException;
 use \UnexpectedValueException;
 use \DateTime;
