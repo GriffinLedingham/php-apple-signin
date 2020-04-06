@@ -36,7 +36,9 @@ class ASDecoder {
      * @return object
      */
     public static function decodeIdentityToken(string $identityToken) : object {
-        $publicKeyData = self::fetchPublicKey();
+        $publicKeyKid = JWT::getPublicKeyKid($identityToken);
+
+        $publicKeyData = self::fetchPublicKey($publicKeyKid);
 
         $publicKey = $publicKeyData['publicKey'];
         $alg = $publicKeyData['alg'];
@@ -50,9 +52,10 @@ class ASDecoder {
      * Fetch Apple's public key from the auth/keys REST API to use to decode
      * the Sign In JWT.
      *
+     * @param string $publicKeyKid
      * @return array
      */
-    public static function fetchPublicKey() : array {
+    public static function fetchPublicKey(string $publicKeyKid) : array {
         $publicKeys = file_get_contents('https://appleid.apple.com/auth/keys');
         $decodedPublicKeys = json_decode($publicKeys, true);
 
@@ -60,7 +63,8 @@ class ASDecoder {
             throw new Exception('Invalid key format.');
         }
 
-        $parsedKeyData = $decodedPublicKeys['keys'][0];
+        $kids = array_column($decodedPublicKeys['keys'], 'kid');
+        $parsedKeyData = $decodedPublicKeys['keys'][array_search($publicKeyKid, $kids)];
         $parsedPublicKey= JWK::parseKey($parsedKeyData);
         $publicKeyDetails = openssl_pkey_get_details($parsedPublicKey);
 
