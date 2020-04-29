@@ -1,17 +1,11 @@
 {
-    "name": "kostanjevec/php-apple-signin",
-    "type": "library",
-    "description": "A simple library to decode and parse Apple Sign In client tokens.",
-    "keywords": ["apple","sign","in","ios","php","jwt","jwk"],
-    "license": "MIT",
-    "authors": [
+    "repositories": [
         {
-            "name": "Griffin Ledingham",
-            "email": "gcledingham@gmail.com",
-            "role": "Developer"
+            "type": "vcs",
+            "url": "https://github.com/vencis/php-apple-signin"
         }
     ],
-    "autoload": {
-        "psr-4": { "AppleSignIn\\": "" }
+    "require": {
+        "kprigel/php-apple-signin": "dev-master"
     }
 }
