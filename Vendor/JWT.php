@@ -2,9 +2,9 @@
 
 namespace AppleSignIn\Vendor;
 use \DomainException;
-use Firebase\JWT\BeforeValidException;
-use Firebase\JWT\ExpiredException;
-use Firebase\JWT\SignatureInvalidException;
+use AppleSignIn\Vendor\BeforeValidException;
+use AppleSignIn\Vendor\ExpiredException;
+use AppleSignIn\Vendor\SignatureInvalidException;
 use \InvalidArgumentException;
 use \UnexpectedValueException;
 use \DateTime;
@@ -145,7 +145,7 @@ class JWT
      * @param string $jwt
      * @return mixed
      */
-    public static function getPublicKeyKid(string $jwt)
+    public static function getPublicKeyKid($jwt)
     {
         $tks = explode('.', $jwt);
         if (count($tks) != 3) {
