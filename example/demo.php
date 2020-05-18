@@ -1,20 +1,7 @@
-php-apple-signin
-=======
-PHP library to manage Sign In with Apple identifier tokens, and validate them server side passed through by the iOS client.
-
-Installation
-------------
-
-Use composer to manage your dependencies and download php-apple-signin:
-
-```bash
-composer require griffinledingham/php-apple-signin
-```
-
-Example
--------
-```php
 <?php
+
+include '../vendor/autoload.php';
+
 use AppleSignIn\ASDecoder;
 
 $clientUser = "example_client_user";
@@ -33,9 +20,8 @@ $user = $appleSignInPayload->getUser();
  */
 $isValid = $appleSignInPayload->verifyUser($clientUser);
 
-?>
-```
 
-# FAQ
 
-[FAQ](doc/faq.md)
+//test download apple auth keys
+//$a = \AppleSignIn\ASCurl::get("https://appleid.apple.com/auth/keys", null, $errors);
+//var_dump($a);

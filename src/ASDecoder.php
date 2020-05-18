@@ -59,7 +59,7 @@ class ASDecoder
      */
     public static function fetchPublicKey(string $publicKeyKid): array
     {
-        $publicKeys = file_get_contents('https://appleid.apple.com/auth/keys');
+        $publicKeys = ASCurl::get('https://appleid.apple.com/auth/keys');
         $decodedPublicKeys = json_decode($publicKeys, true);
 
         if (!isset($decodedPublicKeys['keys']) || count($decodedPublicKeys['keys']) < 1) {
