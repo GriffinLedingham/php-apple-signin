@@ -3,6 +3,7 @@
 namespace AppleSignIn;
 
 use AppleSignIn\Http\Client;
+use Firebase\JWT\JWK;
 
 /**
  * Class PublicKeyFetcher is responsible for using a Http\Client to retrieve Apple's public keys
@@ -33,24 +34,23 @@ class PublicKeyFetcher
     public function fetch(string $publicKeyId): array
     {
         $publicKeys = $this->httpClient->get(self::PUBLIC_KEY_LIST_URL);
-        $decodedPublicKeys = json_decode($publicKeys, true);
-
-        if (!isset($decodedPublicKeys['keys']) || count($decodedPublicKeys['keys']) < 1) {
-            throw new Exception('Invalid key format.');
+        if (!is_string($publicKeys)) {
+            throw new Exception('Invalid response from Apple.', 0, $e);
         }
 
-        $kids = array_column($decodedPublicKeys['keys'], 'kid');
-        $parsedKeyData = $decodedPublicKeys['keys'][array_search($publicKeyId, $kids, false)];
-        $parsedPublicKey = JWK::parseKey($parsedKeyData);
-        $publicKeyDetails = openssl_pkey_get_details($parsedPublicKey);
+        try {
+            $publicKeyDetails = JWK::parseKeySet(json_decode($publicKeys, true));
+        } catch (\Exception $e) {
+            throw new Exception('Could not parse key response from Apple.', 0, $e);
+        }
 
-        if (!isset($publicKeyDetails['key'])) {
+        if (!isset($publicKeyDetails[$publicKeyId])) {
             throw new Exception('Invalid public key details.');
         }
 
         return [
-            'publicKey' => $publicKeyDetails['key'],
-            'alg' => $parsedKeyData['alg']
+            'publicKey' => $publicKeyDetails[$publicKeyId],
+            'alg'       => 'RS256',
         ];
     }
 }
