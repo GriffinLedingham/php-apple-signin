@@ -8,7 +8,7 @@ use Exception;
  * Decode Sign In with Apple identity token, and produce an ASPayload for
  * utilizing in backend auth flows to verify validity of provided user creds.
  *
- * @package  AppleSignIn\ASDecoder
+ * @package  AppleSignIn
  * @author   Griffin Ledingham <gcledingham@gmail.com>
  * @license  http://opensource.org/licenses/BSD-3-Clause 3-clause BSD
  * @link     https://github.com/GriffinLedingham/php-apple-signin
