@@ -35,7 +35,7 @@ class PublicKeyFetcher
     {
         $publicKeys = $this->httpClient->get(self::PUBLIC_KEY_LIST_URL);
         if (!is_string($publicKeys)) {
-            throw new Exception('Invalid response from Apple.', 0, $e);
+            throw new Exception('Invalid response from Apple.');
         }
 
         try {
