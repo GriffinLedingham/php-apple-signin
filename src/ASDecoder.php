@@ -44,9 +44,7 @@ class ASDecoder
         $publicKey = $publicKeyData['publicKey'];
         $alg = $publicKeyData['alg'];
 
-        $payload = JWT::decode($identityToken, $publicKey, [$alg]);
-
-        return $payload;
+        return JWT::decode($identityToken, $publicKey, [$alg]);
     }
 
     /**
@@ -59,7 +57,7 @@ class ASDecoder
      */
     public static function fetchPublicKey(string $publicKeyKid): array
     {
-        $publicKeys = ASCurl::get('https://appleid.apple.com/auth/keys');
+        $publicKeys = Http\ASCurl::get('https://appleid.apple.com/auth/keys');
         $decodedPublicKeys = json_decode($publicKeys, true);
 
         if (!isset($decodedPublicKeys['keys']) || count($decodedPublicKeys['keys']) < 1) {
