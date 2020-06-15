@@ -3,6 +3,8 @@
 include '../vendor/autoload.php';
 
 use AppleSignIn\Decoder;
+use AppleSignIn\Http\Curl;
+use AppleSignIn\PublicKeyFetcher;
 
 $clientUser = "example_client_user";
 $identityToken = "example_encoded_jwt";
@@ -23,5 +25,12 @@ $isValid = $appleSignInPayload->verifyUser($clientUser);
 
 
 //test download apple auth keys
-//$a = \AppleSignIn\ASCurl::get("https://appleid.apple.com/auth/keys", null, $errors);
-//var_dump($a);
+$fetcher = new PublicKeyFetcher(new Curl());
+
+try {
+    $a = $fetcher->fetch('86D88Kf');
+} catch (\AppleSignIn\Exception $e) {
+    var_dump($e);
+}
+
+var_dump($a);
