@@ -23,7 +23,7 @@
         "test:all": ["@test:integration"],
         "test:integration": "phpunit --colors=always --bootstrap ./tests/integration/bootstrap.php --testsuite=integration",
         "lint": "git diff --diff-filter=ACMR --name-only origin/master..HEAD | grep '\\.php' | xargs vendor/bin/phpcs --standard=phpcs.xml --warning-severity=0 --extensions=php",
-        "lintall": "vendor/bin/phpcs --standard=phpcs.xml --warning-severity=0 --extensions=php"
+        "lintall": "vendor/bin/phpcs --standard=phpcs.xml --warning-severity=0 --extensions=php src/"
     },
     "autoload": {
         "psr-4": {

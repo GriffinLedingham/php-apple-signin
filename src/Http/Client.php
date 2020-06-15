@@ -2,9 +2,8 @@
 
 namespace AppleSignIn\Http;
 
-
 /**
- * Class ASCurl
+ * Class Client
  * @package AppleSignIn
  * @author  Phil M
  * @since   1.0

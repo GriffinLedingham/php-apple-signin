@@ -1,18 +1,12 @@
 <?php
+
+namespace AppleSignIn\Http;
+
 /**
  *   Author: Yanlongli <ahlyl94@gmail.com>
  *   Date:   2019/8/2
  *   IDE:    PhpStorm
  *   Desc:   CURL
- */
-
-namespace AppleSignIn\Http;
-
-/**
- * Class Curl
- * @package AppleSignIn
- * @author  Zou Yiliang
- * @since   1.0
  */
 class Curl implements Client
 {

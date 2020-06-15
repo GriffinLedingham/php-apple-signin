@@ -60,4 +60,3 @@ class Decoder
         return (new PublicKeyFetcher(new Http\Curl()))->fetch($publicKeyKid);
     }
 }
-
