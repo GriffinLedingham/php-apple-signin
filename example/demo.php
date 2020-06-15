@@ -2,12 +2,12 @@
 
 include '../vendor/autoload.php';
 
-use AppleSignIn\ASDecoder;
+use AppleSignIn\Decoder;
 
 $clientUser = "example_client_user";
 $identityToken = "example_encoded_jwt";
 
-$appleSignInPayload = ASDecoder::getAppleSignInPayload($identityToken);
+$appleSignInPayload = Decoder::getAppleSignInPayload($identityToken);
 
 /**
  * Obtain the Sign In with Apple email and user creds.

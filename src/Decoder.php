@@ -25,7 +25,7 @@ class Decoder
     public static function getAppleSignInPayload(string $identityToken): ?object
     {
         $identityPayload = self::decodeIdentityToken($identityToken);
-        return new ASPayload($identityPayload);
+        return new Payload($identityPayload);
     }
 
     /**

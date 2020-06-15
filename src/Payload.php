@@ -8,7 +8,7 @@ use Exception;
  * A class decorator for the Sign In with Apple payload produced by
  * decoding the signed JWT from a client.
  */
-class ASPayload
+class Payload
 {
     protected $_instance;
 
