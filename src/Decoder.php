@@ -16,15 +16,29 @@ use Exception;
 class Decoder
 {
     /**
+     * @var PublicKeyFetcher
+     */
+    private $keyFetcher;
+
+    /**
+     * Decoder constructor.
+     * @param PublicKeyFetcher $keyFetcher
+     */
+    public function __construct(PublicKeyFetcher $keyFetcher)
+    {
+        $this->keyFetcher = $keyFetcher;
+    }
+
+    /**
      * Parse a provided Sign In with Apple identity token.
      *
      * @param string $identityToken
      * @return object|null
      * @throws Exception
      */
-    public static function getAppleSignInPayload(string $identityToken): ?object
+    public function getAppleSignInPayload(string $identityToken): Payload
     {
-        $identityPayload = self::decodeIdentityToken($identityToken);
+        $identityPayload = $this->decodeIdentityToken($identityToken);
         return new Payload($identityPayload);
     }
 
@@ -35,11 +49,11 @@ class Decoder
      * @return object
      * @throws Exception
      */
-    public static function decodeIdentityToken(string $identityToken): object
+    private function decodeIdentityToken(string $identityToken): object
     {
         $publicKeyKid = JWT::getPublicKeyKid($identityToken);
 
-        $publicKeyData = self::fetchPublicKey($publicKeyKid);
+        $publicKeyData = $this->fetchPublicKey($publicKeyKid);
 
         $publicKey = $publicKeyData['publicKey'];
         $alg = $publicKeyData['alg'];
@@ -55,8 +69,8 @@ class Decoder
      * @return array
      * @throws Exception
      */
-    public static function fetchPublicKey(string $publicKeyKid): array
+    private function fetchPublicKey(string $publicKeyKid): array
     {
-        return (new PublicKeyFetcher(new Http\Curl()))->fetch($publicKeyKid);
+        return $this->keyFetcher->fetch($publicKeyKid);
     }
 }

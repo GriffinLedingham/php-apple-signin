@@ -9,13 +9,18 @@ use AppleSignIn\PublicKeyFetcher;
 $clientUser = "example_client_user";
 $identityToken = "example_encoded_jwt";
 
-$appleSignInPayload = Decoder::getAppleSignInPayload($identityToken);
+$decoder = new Decoder(
+    new PublicKeyFetcher(new Curl())
+);
+$appleSignInPayload = $decoder->getAppleSignInPayload($identityToken);
 
 /**
  * Obtain the Sign In with Apple email and user creds.
  */
 $email = $appleSignInPayload->getEmail();
 $user = $appleSignInPayload->getUser();
+
+$AppleUserUUID = $appleSignInPayload->getUserUUID();
 
 /**
  * Determine whether the client-provided user is valid.
