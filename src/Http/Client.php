@@ -12,7 +12,7 @@ namespace AppleSignIn\Http;
  */
 interface Client
 {
-    public static function get($url, $options = array(), &$errors = array());
+    public function get($url, $options = array(), &$errors = array());
 
     /**
      * @param $url

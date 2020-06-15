@@ -57,26 +57,7 @@ class Decoder
      */
     public static function fetchPublicKey(string $publicKeyKid): array
     {
-        $publicKeys = Http\ASCurl::get('https://appleid.apple.com/auth/keys');
-        $decodedPublicKeys = json_decode($publicKeys, true);
-
-        if (!isset($decodedPublicKeys['keys']) || count($decodedPublicKeys['keys']) < 1) {
-            throw new Exception('Invalid key format.');
-        }
-
-        $kids = array_column($decodedPublicKeys['keys'], 'kid');
-        $parsedKeyData = $decodedPublicKeys['keys'][array_search($publicKeyKid, $kids)];
-        $parsedPublicKey = JWK::parseKey($parsedKeyData);
-        $publicKeyDetails = openssl_pkey_get_details($parsedPublicKey);
-
-        if (!isset($publicKeyDetails['key'])) {
-            throw new Exception('Invalid public key details.');
-        }
-
-        return [
-            'publicKey' => $publicKeyDetails['key'],
-            'alg' => $parsedKeyData['alg']
-        ];
+        return (new PublicKeyFetcher(new Http\ASCurl()))->fetch($publicKeyKid);
     }
 }
 

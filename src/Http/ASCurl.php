@@ -16,7 +16,8 @@ namespace AppleSignIn\Http;
  */
 class ASCurl implements Client
 {
-    public static function get($url, $options = array(), &$errors = array())
+
+    public function get($url, $options = array(), &$errors = array())
     {
         return self::execute($url, 'get', null, $options, $errors);
     }
