@@ -10,8 +10,14 @@ use Exception;
  */
 class Payload
 {
+    /** @var object|null  */
     protected $_instance;
 
+    /**
+     * Payload constructor.
+     * @param object|null $instance
+     * @throws Exception
+     */
     public function __construct(?object $instance)
     {
         if (is_null($instance)) {
@@ -27,7 +33,7 @@ class Payload
 
     public function __get($key)
     {
-        return (isset($this->_instance->$key)) ? $this->_instance->$key : null;
+        return $this->_instance->$key ?? null;
     }
 
     public function __set($key, $val)
@@ -35,14 +41,24 @@ class Payload
         return $this->_instance->$key = $val;
     }
 
+    public function __isset($name)
+    {
+        return isset($this->_instance->$name);
+    }
+
     public function getEmail(): ?string
     {
-        return (isset($this->_instance->email)) ? $this->_instance->email : null;
+        return $this->_instance->email ?? null;
     }
 
     public function getUser(): ?string
     {
-        return (isset($this->_instance->sub)) ? $this->_instance->sub : null;
+        return $this->_instance->sub ?? null;
+    }
+
+    public function getUserUUID(): ?string
+    {
+        return $this->_instance->sub ?? null;
     }
 
     public function verifyUser(string $user): bool
