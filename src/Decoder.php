@@ -33,7 +33,7 @@ class Decoder
      * Parse a provided Sign In with Apple identity token.
      *
      * @param string $identityToken
-     * @return object|null
+     * @return Payload
      * @throws Exception
      */
     public function getAppleSignInPayload(string $identityToken): Payload
