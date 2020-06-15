@@ -6,8 +6,9 @@ namespace AppleSignIn\Http;
 /**
  * Class ASCurl
  * @package AppleSignIn
- * @author  Zou Yiliang
+ * @author  Phil M
  * @since   1.0
+ * @todo Implement http message interfaces for this instead of our own.
  */
 interface Client
 {
