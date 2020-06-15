@@ -13,7 +13,7 @@ use Exception;
  * @license  http://opensource.org/licenses/BSD-3-Clause 3-clause BSD
  * @link     https://github.com/GriffinLedingham/php-apple-signin
  */
-class ASDecoder
+class Decoder
 {
     /**
      * Parse a provided Sign In with Apple identity token.
