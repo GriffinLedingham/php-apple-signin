@@ -57,7 +57,7 @@ class Decoder
      */
     public static function fetchPublicKey(string $publicKeyKid): array
     {
-        return (new PublicKeyFetcher(new Http\ASCurl()))->fetch($publicKeyKid);
+        return (new PublicKeyFetcher(new Http\Curl()))->fetch($publicKeyKid);
     }
 }
 

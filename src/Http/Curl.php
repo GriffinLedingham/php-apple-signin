@@ -9,12 +9,12 @@
 namespace AppleSignIn\Http;
 
 /**
- * Class ASCurl
+ * Class Curl
  * @package AppleSignIn
  * @author  Zou Yiliang
  * @since   1.0
  */
-class ASCurl implements Client
+class Curl implements Client
 {
 
     public function get($url, $options = array(), &$errors = array())
