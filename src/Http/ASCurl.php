@@ -19,7 +19,7 @@ class ASCurl implements Client
 
     public function get($url, $options = array(), &$errors = array())
     {
-        return self::execute($url, 'get', null, $options, $errors);
+        return $this->execute($url, 'get', null, $options, $errors);
     }
 
     /**
@@ -30,7 +30,7 @@ class ASCurl implements Client
      * @param array $errors
      * @return mixed
      */
-    public static function execute($url, $method, $postData = null, $options = array(), &$errors = array())
+    public function execute($url, $method, $postData = null, $options = array(), &$errors = array())
     {
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $url);
@@ -64,8 +64,8 @@ class ASCurl implements Client
         return $output;
     }
 
-    public static function post($url, $postData, $options = array(), &$errors = array())
+    public function post($url, $postData, $options = array(), &$errors = array())
     {
-        return self::execute($url, 'post', $postData, $options, $errors);
+        return $this->execute($url, 'post', $postData, $options, $errors);
     }
 }

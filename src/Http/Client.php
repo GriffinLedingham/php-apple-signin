@@ -22,7 +22,7 @@ interface Client
      * @param array $errors
      * @return mixed
      */
-    public static function execute($url, $method, $postData = null, $options = array(), &$errors = array());
+    public function execute($url, $method, $postData = null, $options = array(), &$errors = array());
 
-    public static function post($url, $postData, $options = array(), &$errors = array());
+    public function post($url, $postData, $options = array(), &$errors = array());
 }
