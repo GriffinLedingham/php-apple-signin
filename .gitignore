@@ -2,3 +2,4 @@
 
 # composer vendor
 vendor
+composer.lock

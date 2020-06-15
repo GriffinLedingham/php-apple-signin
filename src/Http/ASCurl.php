@@ -6,7 +6,7 @@
  *   Desc:   CURL
  */
 
-namespace AppleSignIn;
+namespace AppleSignIn\Http;
 
 /**
  * Class ASCurl
