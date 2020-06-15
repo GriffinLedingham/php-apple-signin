@@ -14,7 +14,7 @@ namespace AppleSignIn\Http;
  * @author  Zou Yiliang
  * @since   1.0
  */
-class ASCurl
+class ASCurl implements Client
 {
     public static function get($url, $options = array(), &$errors = array())
     {
