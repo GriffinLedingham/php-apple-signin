@@ -17,8 +17,8 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate
 
-    - name: Run phpcs on changes
-      run: composer run-script lint
+#    - name: Run phpcs on changes
+#      run: composer run-script lint
 
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
