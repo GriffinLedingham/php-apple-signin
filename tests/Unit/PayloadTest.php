@@ -100,4 +100,18 @@ class PayloadTest extends TestCase
 
         $this->assertEquals('com.example.apple', $payload->getAudience());
     }
+
+    public function testVerifyAudienceReturnsTrueWithCorrectAudience()
+    {
+        $payload = new Payload($this->jwtPayload);
+
+        $this->assertTrue($payload->verifyAudience('com.example.apple'));
+    }
+
+    public function testVerifyAudienceReturnsFalseWithIncorrectAudience()
+    {
+        $payload = new Payload($this->jwtPayload);
+
+        $this->assertFalse($payload->verifyAudience('invalid'));
+    }
 }

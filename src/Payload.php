@@ -81,7 +81,7 @@ class Payload
      */
     public function verifyAudience(string $aud): bool
     {
-        return ($this->getAudience() !== $aud);
+        return ($this->getAudience() === $aud);
     }
 
     public function verifyUser(string $user): bool
