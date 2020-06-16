@@ -14,8 +14,9 @@ composer require griffinledingham/php-apple-signin
 Example
 -------
 ```php
+```php
 <?php
-use AppleSignIn\ASDecoder;
+use AppleSignIn\Decoder;
 
 $clientUser = "example_client_user";
 $identityToken = "example_encoded_jwt";
@@ -35,3 +36,7 @@ $isValid = $appleSignInPayload->verifyUser($clientUser);
 
 ?>
 ```
+
+# FAQ
+
+[FAQ](doc/faq.md)
