@@ -8,6 +8,8 @@ namespace AppleSignIn;
  */
 class Payload
 {
+    const APPLE_TOKEN_ISSUER = 'https://appleid.apple.com';
+
     /** @var object|null  */
     protected $_instance;
 
@@ -30,22 +32,43 @@ class Payload
             throw new Exception('Payload received invalid JWT. Missing email claim.');
         }
 
+        if (!isset($instance->iss)) {
+            throw new Exception('Payload received invalid JWT. Missing issuer claim.');
+        }
+
+        if ($instance->iss !== self::APPLE_TOKEN_ISSUER) {
+            throw new Exception('Payload received invalid JWT. Invalid issuer claim. ' . $instance->iss);
+        }
+
         $this->_instance = $instance;
     }
 
-    public function getEmail(): ?string
+    public function getAudience(): string
     {
-        return $this->_instance->email ?? null;
+        return $this->_instance->aud ?? '';
     }
 
-    public function getUser(): ?string
+    public function getEmail(): string
     {
-        return $this->_instance->sub ?? null;
+        return $this->_instance->email ?? '';
     }
 
-    public function getUserUUID(): ?string
+    public function isEmailVerified(): bool
     {
-        return $this->_instance->sub ?? null;
+        $verified = $this->_instance->email_verified ?? '';
+
+        // Apple appears to (currently?) return this as a string with true in it.
+        return $verified === 'true' || $verified === true;
+    }
+
+    public function getUser(): string
+    {
+        return $this->_instance->sub ?? '';
+    }
+
+    public function getUserUUID(): string
+    {
+        return $this->_instance->sub ?? '';
     }
 
     public function verifyUser(string $user): bool

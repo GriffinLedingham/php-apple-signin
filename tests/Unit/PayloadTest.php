@@ -19,8 +19,10 @@ class PayloadTest extends TestCase
         parent::setUp();
 
         $this->jwtPayload = new \stdClass();
+        $this->jwtPayload->iss = Payload::APPLE_TOKEN_ISSUER;
         $this->jwtPayload->sub = 'some-user-uuid-string';
         $this->jwtPayload->email = 'user@example.com';
+        $this->jwtPayload->aud = 'com.example.apple';
     }
 
     /**
@@ -54,6 +56,29 @@ class PayloadTest extends TestCase
         $payload = new Payload($this->jwtPayload);
     }
 
+    /**
+     * @expectedException \AppleSignIn\Exception
+     * @expectedExceptionMessage Payload received invalid JWT. Missing issuer claim.
+     */
+    public function testPayloadInstanciatedWithMissingIssuerClaim()
+    {
+        unset($this->jwtPayload->iss);
+
+        $payload = new Payload($this->jwtPayload);
+    }
+
+
+    /**
+     * @expectedException \AppleSignIn\Exception
+     * @expectedExceptionMessage Payload received invalid JWT. Invalid issuer claim.
+     */
+    public function testPayloadInstanciatedWithInvalidIssuerClaim()
+    {
+        $this->jwtPayload->iss = 'invalid';
+
+        $payload = new Payload($this->jwtPayload);
+    }
+
     public function testGetUserUUIDReturnsSubClaim()
     {
         $payload = new Payload($this->jwtPayload);
@@ -66,5 +91,13 @@ class PayloadTest extends TestCase
         $payload = new Payload($this->jwtPayload);
 
         $this->assertEquals('user@example.com', $payload->getEmail());
+    }
+
+    public function testGetAudienceReturnsAudClaim()
+    {
+
+        $payload = new Payload($this->jwtPayload);
+
+        $this->assertEquals('com.example.apple', $payload->getAudience());
     }
 }
