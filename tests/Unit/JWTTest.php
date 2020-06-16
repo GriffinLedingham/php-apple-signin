@@ -2,7 +2,6 @@
 
 namespace AppleSignInTest\Unit;
 
-
 use AppleSignIn\JWT;
 use PHPUnit\Framework\TestCase;
 
@@ -22,5 +21,4 @@ class JWTTest extends TestCase
 
         $this->assertEquals('TESTKID', $result);
     }
-
 }
