@@ -4,6 +4,13 @@ namespace AppleSignIn;
 
 use UnexpectedValueException;
 
+/**
+ * Class JWT
+ * @todo(pmuir): break the inheritance here, it's not needed and we should prefer composition, wrapping the Firebase
+ * static methods directly instead of what I have done here.
+ *
+ * @package AppleSignIn
+ */
 class JWT extends \Firebase\JWT\JWT
 {
     /**
