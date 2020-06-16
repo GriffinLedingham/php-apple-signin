@@ -4,12 +4,14 @@ include '../vendor/autoload.php';
 
 use AppleSignIn\Decoder;
 use AppleSignIn\Http\Curl;
+use AppleSignIn\JWT;
 use AppleSignIn\PublicKeyFetcher;
 
 $clientUser = "example_client_user";
 $identityToken = "example_encoded_jwt";
 
 $decoder = new Decoder(
+    new JWT(),
     new PublicKeyFetcher(new Curl())
 );
 $appleSignInPayload = $decoder->getAppleSignInPayload($identityToken);

@@ -71,6 +71,19 @@ class Payload
         return $this->_instance->sub ?? '';
     }
 
+    /**
+     *
+     *         if (!$payload->verifyAudience($audience)) {
+     *          throw new \AppleSignIn\Exception('JWT issued to invalid audience');
+     *         }
+     * @param string $aud
+     * @return bool
+     */
+    public function verifyAudience(string $aud): bool
+    {
+        return ($this->getAudience() !== $aud);
+    }
+
     public function verifyUser(string $user): bool
     {
         return $user === $this->getUser();

@@ -19,14 +19,20 @@ class Decoder
      * @var PublicKeyFetcher
      */
     private $keyFetcher;
+    /**
+     * @var JWT
+     */
+    private $JWT;
 
     /**
      * Decoder constructor.
+     * @param JWT $JWT
      * @param PublicKeyFetcher $keyFetcher
      */
-    public function __construct(PublicKeyFetcher $keyFetcher)
+    public function __construct(JWT $JWT, PublicKeyFetcher $keyFetcher)
     {
         $this->keyFetcher = $keyFetcher;
+        $this->JWT = $JWT;
     }
 
     /**
@@ -34,7 +40,7 @@ class Decoder
      *
      * @param string $identityToken
      * @return Payload
-     * @throws Exception
+     * @throws \AppleSignIn\Exception
      */
     public function getAppleSignInPayload(string $identityToken): Payload
     {
@@ -51,14 +57,14 @@ class Decoder
      */
     private function decodeIdentityToken(string $identityToken): object
     {
-        $publicKeyKid = JWT::getPublicKeyKid($identityToken);
+        $publicKeyKid = $this->JWT->getPublicKeyKid($identityToken);
 
         $publicKeyData = $this->fetchPublicKey($publicKeyKid);
 
         $publicKey = $publicKeyData['publicKey'];
         $alg = $publicKeyData['alg'];
 
-        return JWT::decode($identityToken, $publicKey, [$alg]);
+        return $this->JWT->decodeJwt($identityToken, $publicKey, [$alg]);
     }
 
     /**
