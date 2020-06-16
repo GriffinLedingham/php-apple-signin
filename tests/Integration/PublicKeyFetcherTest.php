@@ -38,8 +38,6 @@ class PublicKeyFetcherTest extends TestCase
      */
     public function testFetchThrowsExceptionWithInvalidKid(): void
     {
-        $result = $this->fetcher->fetch('lol');
-
-        print_r($result);
+        $this->fetcher->fetch('lol');
     }
 }
