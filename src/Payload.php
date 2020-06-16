@@ -19,11 +19,11 @@ class Payload
     public function __construct(?object $instance)
     {
         if (is_null($instance)) {
-            throw new Exception('Payload received null instance.');
+            throw new Exception('Payload received null JWT.');
         }
 
         if (!isset($instance->sub)) {
-            throw new Exception('Payload received invalid JWT. Missing sub claim.');
+            throw new Exception('Payload received invalid JWT. Missing subject claim.');
         }
 
         if (!isset($instance->email)) {
