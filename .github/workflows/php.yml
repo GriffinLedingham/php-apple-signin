@@ -17,11 +17,11 @@ jobs:
     - name: Validate composer.json and composer.lock
       run: composer validate
 
-    - name: Run phpcs on changes
-      run: composer run-script lint:all
-
     - name: Install dependencies
       run: composer install --prefer-dist --no-progress --no-suggest
+
+    - name: Run phpcs on changes
+      run: composer run-script lint:all
 
     - name: Run test suite
       run: composer run-script test:all
