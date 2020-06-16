@@ -2,7 +2,15 @@
     "name": "griffinledingham/php-apple-signin",
     "type": "library",
     "description": "A simple library to decode and parse Apple Sign In client tokens.",
-    "keywords": ["apple","sign","in","ios","php","jwt","jwk"],
+    "keywords": [
+        "apple",
+        "sign",
+        "in",
+        "ios",
+        "php",
+        "jwt",
+        "jwk"
+    ],
     "license": "MIT",
     "authors": [
         {
@@ -11,7 +19,29 @@
             "role": "Developer"
         }
     ],
+    "scripts": {
+        "test:all": ["@test:unit", "@test:integration"],
+        "test:integration": "phpunit --colors=always -c phpunit.xml --testsuite=integration",
+        "test:unit": "phpunit --colors=always -c phpunit.xml --testsuite=unit",
+        "lint": "git diff --diff-filter=ACMR --name-only origin/master..HEAD | grep '\\.php' | xargs vendor/bin/phpcs --standard=phpcs.xml --warning-severity=0 --extensions=php",
+        "lint:all": "vendor/bin/phpcs --standard=phpcs.xml --warning-severity=0 --extensions=php src/ tests/"
+    },
     "autoload": {
-        "psr-4": { "AppleSignIn\\": "" }
+        "psr-4": {
+            "AppleSignIn\\": "src/",
+            "AppleSignInTest\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^7.2",
+        "ext-json": "*",
+        "ext-openssl": "*",
+        "firebase/php-jwt": "^5.2.0",
+        "ext-curl": "*"
+    },
+    "require-dev": {
+        "roave/security-advisories": "dev-master",
+        "phpunit/phpunit": "^6.5",
+        "squizlabs/php_codesniffer": "3.*"
     }
 }
