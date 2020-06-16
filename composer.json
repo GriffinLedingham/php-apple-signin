@@ -24,7 +24,7 @@
         "test:integration": "phpunit --colors=always -c phpunit.xml --testsuite=integration",
         "test:unit": "phpunit --colors=always -c phpunit.xml --testsuite=unit",
         "lint": "git diff --diff-filter=ACMR --name-only origin/master..HEAD | grep '\\.php' | xargs vendor/bin/phpcs --standard=phpcs.xml --warning-severity=0 --extensions=php",
-        "lintall": "vendor/bin/phpcs --standard=phpcs.xml --warning-severity=0 --extensions=php src/"
+        "lintall": "vendor/bin/phpcs --standard=phpcs.xml --warning-severity=0 --extensions=php src/ tests/"
     },
     "autoload": {
         "psr-4": {
