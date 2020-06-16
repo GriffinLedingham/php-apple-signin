@@ -18,7 +18,7 @@ class JWTTest extends TestCase
         ];
         $token = JWT::urlsafeB64Encode(JWT::jsonEncode($claims)) . '.xxx.xxx';
 
-        $result = JWT::getPublicKeyKid($token);
+        $result = (new JWT())->getPublicKeyKid($token);
 
         $this->assertEquals('TESTKID', $result);
     }
