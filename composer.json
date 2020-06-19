@@ -15,7 +15,7 @@
         "psr-4": { "AppleSignIn\\": "src/" }
     },
     "require": {
-        "php": "^7.2",
+        "php": ">=5.5",
         "ext-json": "*",
         "ext-openssl": "*",
         "firebase/php-jwt": "^5.2.0",
