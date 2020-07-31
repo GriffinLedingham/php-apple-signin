@@ -16,14 +16,15 @@ use Exception;
  * @license  http://opensource.org/licenses/BSD-3-Clause 3-clause BSD
  * @link     https://github.com/GriffinLedingham/php-apple-signin
  */
-class ASDecoder {
+class ASDecoder
+{
     /**
      * Parse a provided Sign In with Apple identity token.
      *
      * @param string $identityToken
      * @return object|null
      */
-    public static function getAppleSignInPayload(string $identityToken) : ?object
+    public static function getAppleSignInPayload(string $identityToken)
     {
         $identityPayload = self::decodeIdentityToken($identityToken);
         return new ASPayload($identityPayload);
@@ -35,7 +36,8 @@ class ASDecoder {
      * @param string $identityToken
      * @return object
      */
-    public static function decodeIdentityToken(string $identityToken) : object {
+    public static function decodeIdentityToken(string $identityToken)
+    {
         $publicKeyKid = JWT::getPublicKeyKid($identityToken);
 
         $publicKeyData = self::fetchPublicKey($publicKeyKid);
@@ -55,20 +57,21 @@ class ASDecoder {
      * @param string $publicKeyKid
      * @return array
      */
-    public static function fetchPublicKey(string $publicKeyKid) : array {
+    public static function fetchPublicKey(string $publicKeyKid): array
+    {
         $publicKeys = file_get_contents('https://appleid.apple.com/auth/keys');
         $decodedPublicKeys = json_decode($publicKeys, true);
 
-        if(!isset($decodedPublicKeys['keys']) || count($decodedPublicKeys['keys']) < 1) {
+        if (!isset($decodedPublicKeys['keys']) || count($decodedPublicKeys['keys']) < 1) {
             throw new Exception('Invalid key format.');
         }
 
         $kids = array_column($decodedPublicKeys['keys'], 'kid');
         $parsedKeyData = $decodedPublicKeys['keys'][array_search($publicKeyKid, $kids)];
-        $parsedPublicKey= JWK::parseKey($parsedKeyData);
+        $parsedPublicKey = JWK::parseKey($parsedKeyData);
         $publicKeyDetails = openssl_pkey_get_details($parsedPublicKey);
 
-        if(!isset($publicKeyDetails['key'])) {
+        if (!isset($publicKeyDetails['key'])) {
             throw new Exception('Invalid public key details.');
         }
 
@@ -83,37 +86,45 @@ class ASDecoder {
  * A class decorator for the Sign In with Apple payload produced by
  * decoding the signed JWT from a client.
  */
-class ASPayload {
+class ASPayload
+{
     protected $_instance;
 
-    public function __construct(?object $instance) {
-        if(is_null($instance)) {
+    public function __construct($instance)
+    {
+        if (is_null($instance)) {
             throw new Exception('ASPayload received null instance.');
         }
         $this->_instance = $instance;
     }
 
-    public function __call($method, $args) {
+    public function __call($method, $args)
+    {
         return call_user_func_array(array($this->_instance, $method), $args);
     }
 
-    public function __get($key) {
+    public function __get($key)
+    {
         return (isset($this->_instance->$key)) ? $this->_instance->$key : null;
     }
 
-    public function __set($key, $val) {
+    public function __set($key, $val)
+    {
         return $this->_instance->$key = $val;
     }
 
-    public function getEmail() : ?string {
+    public function getEmail(): ?string
+    {
         return (isset($this->_instance->email)) ? $this->_instance->email : null;
     }
 
-    public function getUser() : ?string {
+    public function getUser(): ?string
+    {
         return (isset($this->_instance->sub)) ? $this->_instance->sub : null;
     }
 
-    public function verifyUser(string $user) : bool {
+    public function verifyUser(string $user): bool
+    {
         return $user === $this->getUser();
     }
 }
