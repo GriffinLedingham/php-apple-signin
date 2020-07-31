@@ -24,7 +24,7 @@ class ASDecoder
      * @param string $identityToken
      * @return object|null
      */
-    public static function getAppleSignInPayload(string $identityToken): ?object
+    public static function getAppleSignInPayload(string $identityToken)
     {
         $identityPayload = self::decodeIdentityToken($identityToken);
         return new ASPayload($identityPayload);
@@ -36,7 +36,7 @@ class ASDecoder
      * @param string $identityToken
      * @return object
      */
-    public static function decodeIdentityToken(string $identityToken): object
+    public static function decodeIdentityToken(string $identityToken)
     {
         $publicKeyKid = JWT::getPublicKeyKid($identityToken);
 
