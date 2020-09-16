@@ -7,7 +7,15 @@ use AppleSignIn\ASDecoder;
 $clientUser = "example_client_user";
 $identityToken = "example_encoded_jwt";
 
+// cache get
+$cacheKeys = [];
+
+ASDecoder::$publicKeys = $cacheKeys;
+
 $appleSignInPayload = ASDecoder::getAppleSignInPayload($identityToken);
+
+// cache save
+$cacheKeys = ASDecoder::$publicKeys;
 
 /**
  * Obtain the Sign In with Apple email and user creds.

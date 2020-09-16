@@ -15,6 +15,13 @@ use Exception;
  */
 class ASDecoder
 {
+
+    /**
+     * Cache Hook
+     * @var array[][]
+     */
+    public static $publicKeys = [];
+
     /**
      * Parse a provided Sign In with Apple identity token.
      *
@@ -41,12 +48,7 @@ class ASDecoder
 
         $publicKeyData = self::fetchPublicKey($publicKeyKid);
 
-        $publicKey = $publicKeyData['publicKey'];
-        $alg = $publicKeyData['alg'];
-
-        $payload = JWT::decode($identityToken, $publicKey, [$alg]);
-
-        return $payload;
+        return JWT::decode($identityToken, $publicKeyData['publicKey'], [$publicKeyData['alg']]);
     }
 
     /**
@@ -59,6 +61,10 @@ class ASDecoder
      */
     public static function fetchPublicKey($publicKeyKid)
     {
+        if (array_key_exists($publicKeyKid, self::$publicKeys)) {
+            return self::$publicKeys[$publicKeyKid];
+        }
+
         $publicKeys = ASCurl::get('https://appleid.apple.com/auth/keys');
         $decodedPublicKeys = json_decode($publicKeys, true);
 
@@ -75,7 +81,7 @@ class ASDecoder
             throw new Exception('Invalid public key details.');
         }
 
-        return [
+        return self::$publicKeys[$publicKeyKid] = [
             'publicKey' => $publicKeyDetails['key'],
             'alg' => $parsedKeyData['alg']
         ];
