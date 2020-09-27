@@ -26,5 +26,8 @@
         "ext-openssl": "*",
         "firebase/php-jwt": "^5.2.0",
         "ext-curl": "*"
+    },
+    "replace": {
+        "griffinledingham/php-apple-signin": "^1.0"
     }
 }
