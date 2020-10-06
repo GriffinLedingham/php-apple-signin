@@ -49,6 +49,25 @@ class ASDecoder {
     }
 
     /**
+     * Custom CURL function to replace get_file_content which is unsupport
+     * in most of the situation.
+     *
+     * @param string $URL
+     * @return array
+     */
+    public static function curlGetFileContents($URL)
+    {
+        $c = curl_init();
+        curl_setopt($c, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($c, CURLOPT_URL, $URL);
+        $contents = curl_exec($c);
+        curl_close($c);
+
+        if ($contents) return $contents;
+        else return FALSE;
+    }
+
+    /**
      * Fetch Apple's public key from the auth/keys REST API to use to decode
      * the Sign In JWT.
      *
@@ -56,7 +75,7 @@ class ASDecoder {
      * @return array
      */
     public static function fetchPublicKey(string $publicKeyKid) : array {
-        $publicKeys = file_get_contents('https://appleid.apple.com/auth/keys');
+        $publicKeys = self::curlGetFileContents('https://appleid.apple.com/auth/keys');
         $decodedPublicKeys = json_decode($publicKeys, true);
 
         if(!isset($decodedPublicKeys['keys']) || count($decodedPublicKeys['keys']) < 1) {
