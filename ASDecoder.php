@@ -21,9 +21,9 @@ class ASDecoder {
      * Parse a provided Sign In with Apple identity token.
      *
      * @param string $identityToken
-     * @return object|null
+     * @return ASPayload|null
      */
-    public static function getAppleSignInPayload(string $identityToken) : ?object
+    public static function getAppleSignInPayload(string $identityToken) : ?ASPayload
     {
         $identityPayload = self::decodeIdentityToken($identityToken);
         return new ASPayload($identityPayload);
